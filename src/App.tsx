@@ -10,22 +10,23 @@ import { Profile } from './pages/Profile';
 import { Orders } from './pages/Orders';
 import { Admin } from './pages/Admin';
 import { useAuthStore } from './store/authStore';
+import MerchantPage from './components/MerchantPage';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
 
-  const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean }> = ({ 
-    children, 
-    adminOnly = false 
+  const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean }> = ({
+    children,
+    adminOnly = false,
   }) => {
     if (!isAuthenticated) {
-      return <Navigate to="/login\" replace />;
+      return <Navigate to="/login" replace />;
     }
-    
+
     if (adminOnly && user?.role !== 'admin') {
       return <Navigate to="/products" replace />;
     }
-    
+
     return <>{children}</>;
   };
 
@@ -39,37 +40,46 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/products" element={<Products />} />
-            <Route 
-              path="/cart" 
+
+            <Route
+              path="/cart"
               element={
                 <ProtectedRoute>
                   <Cart />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/profile" 
+            <Route
+              path="/profile"
               element={
                 <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/orders" 
+            <Route
+              path="/orders"
               element={
                 <ProtectedRoute>
                   <Orders />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/admin" 
+            <Route
+              path="/admin"
               element={
                 <ProtectedRoute adminOnly>
                   <Admin />
                 </ProtectedRoute>
-              } 
+              }
+            />
+            <Route
+              path="/merchant"
+              element={
+                <ProtectedRoute adminOnly>
+                  <MerchantPage />
+                </ProtectedRoute>
+              }
             />
           </Routes>
         </main>

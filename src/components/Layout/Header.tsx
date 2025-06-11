@@ -1,6 +1,7 @@
+/* Header.tsx */
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, LogOut, Leaf, Search } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Leaf } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useCartStore } from '../../store/cartStore';
 
@@ -8,7 +9,7 @@ export const Header: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
   const { getItemCount } = useCartStore();
   const navigate = useNavigate();
-  const cartItemCount = getItemCount();
+  const cartItemCount = Number(getItemCount()) || 0;
 
   const handleLogout = () => {
     logout();
@@ -16,7 +17,8 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    // top & side gap + rounded navbar
+    <header className="bg-white shadow-md sticky top-4 mx-2 sm:mx-4 rounded-xl z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -24,22 +26,41 @@ export const Header: React.FC = () => {
             <div className="bg-green-600 p-2 rounded-full">
               <Leaf className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">FreshVeggies</span>
+            <span className="text-xl font-bold text-gray-900">
+              FreshVeggies
+            </span>
           </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/products" className="text-gray-700 hover:text-green-600 transition-colors">
+            <Link
+              to="/products"
+              className="text-gray-700 hover:text-green-600 transition-colors"
+            >
               Products
             </Link>
             {isAuthenticated && user?.role === 'admin' && (
-              <Link to="/admin" className="text-gray-700 hover:text-green-600 transition-colors">
+              <Link
+                to="/admin"
+                className="text-gray-700 hover:text-green-600 transition-colors"
+              >
                 Admin
               </Link>
             )}
             {isAuthenticated && (
-              <Link to="/orders" className="text-gray-700 hover:text-green-600 transition-colors">
+              <Link
+                to="/orders"
+                className="text-gray-700 hover:text-green-600 transition-colors"
+              >
                 Orders
+              </Link>
+            )}
+            {isAuthenticated && user?.role === 'admin' && (
+              <Link
+                to="/merchant"
+                className="text-gray-700 hover:text-green-600 transition-colors"
+              >
+                Merchant Entry
               </Link>
             )}
           </nav>
@@ -49,9 +70,12 @@ export const Header: React.FC = () => {
             {isAuthenticated ? (
               <>
                 {/* Cart */}
-                <Link to="/cart" className="relative p-2 text-gray-700 hover:text-green-600 transition-colors">
+                <Link
+                  to="/cart"
+                  className="relative p-2 text-gray-700 hover:text-green-600 transition-colors"
+                >
                   <ShoppingCart className="h-6 w-6" />
-                  {cartItemCount > 0 && (
+                  {typeof cartItemCount === 'number' && cartItemCount > 0 && (
                     <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                       {cartItemCount}
                     </span>
@@ -60,9 +84,14 @@ export const Header: React.FC = () => {
 
                 {/* User Menu */}
                 <div className="flex items-center space-x-2">
-                  <Link to="/profile" className="flex items-center space-x-2 text-gray-700 hover:text-green-600 transition-colors">
+                  <Link
+                    to="/profile"
+                    className="flex items-center space-x-2 text-gray-700 hover:text-green-600 transition-colors"
+                  >
                     <User className="h-5 w-5" />
-                    <span className="hidden sm:inline">{user?.name}</span>
+                    <span className="hidden sm:inline">
+                      {user?.name}
+                    </span>
                   </Link>
                   <button
                     onClick={handleLogout}

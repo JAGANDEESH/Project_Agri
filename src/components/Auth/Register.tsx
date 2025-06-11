@@ -140,7 +140,7 @@ export const Register: React.FC = () => {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
               >
                 <option value="user">Customer</option>
-                <option value="admin">Admin</option>
+                <option value="admin">merchent</option>
               </select>
             </div>
             
