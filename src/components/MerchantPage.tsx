@@ -6,7 +6,13 @@ interface BagData {
 }
 
 const MerchantPage: React.FC = () => {
+  const formteDate =(date) =>{
+  return date.toISOString().split("T")[0];
+}
+      const currentDate = new Date();
+  const [date,setdate]=useState(formteDate(currentDate));
   const [merchantName, setMerchantName] = useState('');
+  const [Vegetable,setVegetable]=useState('');
   const [tripNo, setTripNo] = useState('');
   const [price, setPrice] = useState('');
   const [noOfBags, setNoOfBags] = useState<number>(0);
@@ -20,6 +26,12 @@ const MerchantPage: React.FC = () => {
     }));
     setBags(updatedBags);
   }, [noOfBags]);
+const [weight, setWeight] = useState(0);
+
+useEffect(() => {
+  const total = bags.reduce((sum, bag) => sum + Number(bag.weight || 0), 0);
+  setWeight(total);
+}, [bags]);
 
   const handleWeightChange = (index: number, weight: number) => {
     const updatedBags = [...bags];
@@ -39,7 +51,7 @@ const MerchantPage: React.FC = () => {
   };
 
   return (
-    <div className="flex gap-6 p-6 bg-gray-100 min-h-screen">
+    <div className="flex gap-3 p-6 bg-gray-100 min-h-screen">
       {/* Left Table */}
     
 
@@ -47,6 +59,30 @@ const MerchantPage: React.FC = () => {
       <div className="w-2/3 bg-white p-6 shadow rounded">
         <h2 className="text-2xl font-bold mb-6">Merchant Entry</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
+     <div>
+  <label htmlFor="date" className="block mb-1 font-medium">
+    Date:
+  </label>
+  <input
+    id="date"
+    type="date"
+    value={date}
+    onChange={(e) => setdate(e.target.value)}
+    className="w-full border rounded p-2"
+    required
+  />
+</div>
+
+ <div>
+            <label className="block mb-1 font-medium">Trip No</label>
+            <input
+              type="text"
+              value={tripNo}
+              onChange={(e) => setTripNo(e.target.value)}
+              className="w-full border rounded p-2"
+              required
+            />
+          </div>
           <div>
             <label className="block mb-1 font-medium">Merchant Name</label>
             <input
@@ -58,17 +94,18 @@ const MerchantPage: React.FC = () => {
             />
           </div>
 
-          <div>
-            <label className="block mb-1 font-medium">Trip No</label>
+
+
+     <div>
+            <label className="block mb-1 font-medium">Vegetable Name</label>
             <input
               type="text"
-              value={tripNo}
-              onChange={(e) => setTripNo(e.target.value)}
+              value={Vegetable}
+              onChange={(e) => setVegetable(e.target.value)}
               className="w-full border rounded p-2"
               required
             />
           </div>
-
           <div>
             <label className="block mb-1 font-medium">Price</label>
             <input
@@ -110,7 +147,17 @@ const MerchantPage: React.FC = () => {
               />
             </div>
           ))}
-
+<div>
+            <label className="block mb-1 font-medium">Total Weight : </label>
+            <input
+              type="number"
+              value={weight}
+              onChange={(e) => setWeight(Number(e.target.value))}
+              className="w-full border rounded p-2"
+              required
+              min={0}
+            />
+          </div>
           <button
             type="submit"
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
@@ -143,7 +190,8 @@ const MerchantPage: React.FC = () => {
                 </tr>
               ))
             )}
-          </tbody>
+           
+          </tbody>     
         </table>
       </div>
     </div>
