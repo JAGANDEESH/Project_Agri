@@ -55,9 +55,9 @@ export const ProductList: React.FC = () => {
       {/* Results Summary */}
       <div className="mb-6">
         <p className="text-gray-600">
-          {loading ? 'Loading...' : `Showing ₹{filteredProducts.length} products`}
-          {searchTerm && ` for "₹{searchTerm}"`}
-          {selectedCategory !== 'All' && ` in ₹{selectedCategory}`}
+          {loading ? 'Loading...' : `Showing ${filteredProducts.length} products`}
+          {searchTerm && ` for ${searchTerm}`}
+          {selectedCategory !== 'All' && ` in ${selectedCategory}`}
         </p>
       </div>
 

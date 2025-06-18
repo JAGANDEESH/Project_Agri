@@ -11,6 +11,7 @@ import { Orders } from './pages/Orders';
 import { Admin } from './pages/Admin';
 import { useAuthStore } from './store/authStore';
 import MerchantPage from './components/MerchantPage';
+import Vegetable from './components/Masters/Vegetable/Vegetable';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
@@ -79,6 +80,14 @@ function App() {
               element={
                 <ProtectedRoute adminOnly>
                   <MerchantPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/vegetable-master"
+              element={
+                <ProtectedRoute adminOnly>
+                  <Vegetable />
                 </ProtectedRoute>
               }
             />
