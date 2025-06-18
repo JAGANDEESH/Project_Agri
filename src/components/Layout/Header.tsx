@@ -64,7 +64,26 @@ export const Header: React.FC = () => {
               >
                 Merchant Entry
               </Link>
+
             )}
+        {isAuthenticated && user?.role === 'admin' && (
+  <div className="relative group">
+    <div className="cursor-pointer text-gray-700 hover:text-green-600 transition-colors">
+      Master
+    </div>
+
+    {/* Dropdown Menu */}
+    <div className="absolute left-0 mt-2 w-40 bg-white shadow-md rounded-md opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-200 z-10">
+      <ul className="py-2 text-sm text-gray-700">
+        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={()=> navigate("")}>Vegetable Master</li>
+        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer"onClick={()=> navigate("")}>Staff Master</li>
+        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer"onClick={()=> navigate("")}>Agent Master</li>
+      <li className="px-4 py-2 hover:bg-green-100 cursor-pointer"onClick={()=> navigate("")}>farmer Master</li>
+      </ul>
+    </div>
+  </div>
+)}
+
           </nav>
 
           {/* Actions */}
@@ -142,7 +161,11 @@ export const Header: React.FC = () => {
                 Merchant Entry
               </Link>
             )}
-
+ {isAuthenticated && user?.role === 'admin' && (
+              <Link to="/merchant" className="text-gray-700 hover:text-green-600">
+                Master
+              </Link>
+            )}
             {isAuthenticated ? (
               <>
                 <Link to="/cart" className="text-gray-700 hover:text-green-600">
