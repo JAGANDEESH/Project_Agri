@@ -57,73 +57,73 @@ useEffect(() => {
 
       {/* Right Form */}
       <div className="w-2/3 bg-white p-6 shadow rounded">
-        <h2 className="text-2xl font-bold mb-6">Merchant Entry</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-     <div>
-  <label htmlFor="date" className="block mb-1 font-medium">
-    Date:
+        <h2 className="text-2xl font-bold mb-6">Vegetable Purchase</h2>
+        <form onSubmit={handleSubmit} className="space-y-4 ">
+     <div className='flex gap-2 mt-1'>
+  <label htmlFor="date" className="block mb-1 font-medium ">
+    Date :
   </label>
   <input
     id="date"
     type="date"
     value={date}
     onChange={(e) => setdate(e.target.value)}
-    className="w-full border rounded p-2"
+    className=" border rounded p-1"
     required
   />
 </div>
 
- <div>
-            <label className="block mb-1 font-medium">Trip No</label>
+ <div className='flex gap-2'>
+            <label className="block mb-1 font-medium">Trip No : </label>
             <input
-              type="text"
+              type="number"
               value={tripNo}
               onChange={(e) => setTripNo(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w- border rounded p-1"
               required
             />
           </div>
-          <div>
+          <div className='flex gap-2'>
             <label className="block mb-1 font-medium">Merchant Name</label>
             <input
               type="text"
               value={merchantName}
               onChange={(e) => setMerchantName(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-1"
               required
             />
           </div>
 
 
 
-     <div>
-            <label className="block mb-1 font-medium">Vegetable Name</label>
+     <div className='flex gap-9 '>
+            <label className="block mb-1  font-medium">Vegetable Name:</label>
             <input
               type="text"
               value={Vegetable}
               onChange={(e) => setVegetable(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-1"
               required
             />
           </div>
-          <div>
+          <div className='flex gap-9 '>
             <label className="block mb-1 font-medium">Price</label>
             <input
               type="number"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-1"
               required
             />
           </div>
 
-          <div>
+      <div className='flex gap-9 '>
             <label className="block mb-1 font-medium">No. of Bags</label>
             <input
               type="number"
               value={noOfBags}
               onChange={(e) => setNoOfBags(Number(e.target.value))}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-1"
               required
               min={0}
             />
@@ -131,7 +131,7 @@ useEffect(() => {
 
           {/* Weight Inputs for Each Bag */}
           {bags.map((bag, index) => (
-            <div key={bag.bagNumber}>
+            <div className='flex gap-2'key={bag.bagNumber}>
               <label className="block mb-1 font-medium">
                 Weight for Bag {bag.bagNumber} (kg)
               </label>
@@ -141,13 +141,13 @@ useEffect(() => {
                 onChange={(e) =>
                   handleWeightChange(index, Number(e.target.value))
                 }
-                className="w-full border rounded p-2"
+                className="w- border rounded p-2"
                 required
                 min={0}
               />
             </div>
           ))}
-<div>
+ <div className='flex gap-9 '>
             <label className="block mb-1 font-medium">Total Weight : </label>
             <input
               type="number"
