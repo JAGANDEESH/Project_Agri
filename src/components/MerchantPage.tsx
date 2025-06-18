@@ -60,7 +60,7 @@ const MerchantPage: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full lg:w-2/3 bg-white p-6 rounded-2xl shadow-lg"
+        className="w-full lg:w-2/3 bg-green-100 p-6 rounded-2xl shadow-lg"
       >
         <h2 className="text-2xl font-bold mb-6 text-green-700">Vegetable Purchase Entry</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -169,7 +169,16 @@ const MerchantPage: React.FC = () => {
               className="w-full bg-gray-100 border rounded px-3 py-1 cursor-not-allowed"
             />
           </div>
-
+<div className="flex justify-end space-x-4 mt-6">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            type="submit"
+            onClick={() => window.history.back()}
+            className="bg-green-600 text-white   px-6 py-2 rounded hover:bg-green-700 transition"
+          >
+            back
+          </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
@@ -178,6 +187,7 @@ const MerchantPage: React.FC = () => {
           >
             Submit & Save
           </motion.button>
+          </div>
         </form>
       </motion.div>
 
@@ -186,7 +196,7 @@ const MerchantPage: React.FC = () => {
         initial={{ opacity: 0, x: 40 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full lg:w-1/3 bg-white p-4 rounded-2xl shadow-lg"
+        className="w-full lg:w-1/3 bg-yellow-100 p-4 rounded-2xl shadow-lg"
       >
         <h2 className="text-xl font-semibold mb-4 text-green-700">Bag List</h2>
         <table className="w-full border overflow-y-auto">
