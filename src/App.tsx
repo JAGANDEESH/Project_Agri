@@ -12,6 +12,9 @@ import { Admin } from './pages/Admin';
 import { useAuthStore } from './store/authStore';
 import MerchantPage from './components/MerchantPage';
 import Vegetable from './components/Masters/Vegetable/Vegetable';
+import UOM from './components/Masters/UOM/UOM';
+import PackingUnit from './components/Masters/PackingUnit/PackingUnit';
+import Category from './components/Masters/Category/Category';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
@@ -88,6 +91,30 @@ function App() {
               element={
                 <ProtectedRoute adminOnly>
                   <Vegetable />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/uom"
+              element={
+                <ProtectedRoute adminOnly>
+                  <UOM />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/packingUnit-master"
+              element={
+                <ProtectedRoute adminOnly>
+                  <PackingUnit />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/category-master"
+              element={
+                <ProtectedRoute adminOnly>
+                  <Category />
                 </ProtectedRoute>
               }
             />

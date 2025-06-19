@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { motion } from 'framer-motion';
 
 
@@ -91,7 +91,7 @@ const Vegetable = () => {
             </motion.div>
 
             {/* Bag List */}
-            <motion.div
+            {/* <motion.div
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
@@ -106,7 +106,7 @@ const Vegetable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {bags.length === 0 ? (
+                        {bags.length === 0 ? (
                             <tr>
                                 <td colSpan={2} className="text-center p-4 text-gray-500">
                                     No bags added yet
@@ -119,10 +119,10 @@ const Vegetable = () => {
                                     <td className="border p-2">{bag.weight}</td>
                                 </tr>
                             ))
-                        )} */}
+                        )}
                     </tbody>
                 </table>
-            </motion.div>
+            </motion.div> */}
         </div>
     )
 }

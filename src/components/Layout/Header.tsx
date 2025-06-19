@@ -57,6 +57,9 @@ export const Header: React.FC = () => {
                 <div className="absolute left-0 mt-2 w-44 bg-white shadow-xl rounded-xl opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-200 z-20">
                   <ul className="py-2 text-sm text-gray-700">
                     <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/vegetable-master")}>Vegetable Master</li>
+                    <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/uom")}>UOM</li>
+                    <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/packingUnit-master")}>Packing Unit</li>
+                    <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/category-master")}>Category</li>
                     <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/staff-master")}>Staff Master</li>
                     <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/agent-master")}>Agent Master</li>
                     <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/farmer-master")}>Farmer Master</li>
@@ -115,6 +118,9 @@ export const Header: React.FC = () => {
                 <div className="text-gray-700 font-semibold">Master</div>
                 <div className="ml-4 space-y-1">
                   <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/vegetable-master")}>Vegetable Master</div>
+                  <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/uom")}>UOM</div>
+                  <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/packingUnit-master")}>Packing Unit</div>
+                  <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/category-master")}>Category</div>
                   <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/staff-master")}>Staff Master</div>
                   <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/agent-master")}>Agent Master</div>
                   <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/farmer-master")}>Farmer Master</div>
