@@ -53,7 +53,7 @@ export const Register: React.FC = () => {
       });
       
       if (success) {
-        navigate('/products');
+        navigate('/Login');
       } else {
         setError('Registration failed. Please try again.');
       }

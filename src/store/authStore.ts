@@ -1,91 +1,57 @@
+// src/store/authStore.ts
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { User } from '../types';
+import { registerUser, loginUser } from '../api/authApi';
 
 interface AuthState {
-  user: User | null;
-  token: string | null;
+  user: any;
   isAuthenticated: boolean;
+  register: (data: {
+    name: string;
+    email: string;
+    phone: string;
+    role: string;
+    password: string;
+  }) => Promise<boolean>;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (userData: Omit<User, 'id'> & { password: string }) => Promise<boolean>;
   logout: () => void;
-  updateProfile: (userData: Partial<User>) => void;
 }
-
-// Mock users for demo
-const mockUsers: (User & { password: string })[] = [
-  {
-    id: '1',
-    name: 'John Doe',
-    email: 'user@demo.com',
-    password: 'password',
-    role: 'user',
-    address: '123 Main St, City, State',
-    phone: '+1234567890'
-  },
-  {
-    id: '2',
-    name: 'Admin User',
-    email: 'admin@demo.com',
-    password: 'admin',
-    role: 'admin',
-    address: '456 Admin Ave, Admin City',
-    phone: '+0987654321'
-  }
-];
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
-      token: null,
       isAuthenticated: false,
 
-      login: async (email: string, password: string) => {
-        // Mock authentication
-        const user = mockUsers.find(u => u.email === email && u.password === password);
-        if (user) {
-          const { password: _, ...userWithoutPassword } = user;
-          set({
-            user: userWithoutPassword,
-            token: 'mock-jwt-token',
-            isAuthenticated: true
-          });
+      register: async (data) => {
+        try {
+          await registerUser(data);
+          set({ isAuthenticated: true });
           return true;
+        } catch (err) {
+          console.error(err);
+          return false;
         }
-        return false;
       },
-      register: async (userData) => {
-        // Mock registration
-        const newUser: User = {
-          ...userData,
-          id: Date.now().toString(),
-        };
-        mockUsers.push({ ...newUser, password: userData.password });
-        set({
-          user: newUser,
-          token: 'mock-jwt-token',
-          isAuthenticated: true
-        });
-        return true;
+
+      login: async (email, password) => {
+        try {
+          const res = await loginUser(email, password);
+          set({ isAuthenticated: true, user: res.user });
+          return true;
+        } catch (err) {
+          console.error('Login failed:', err);
+          return false;
+        }
       },
+
       logout: () => {
-        set({
-          user: null,
-          token: null,
-          isAuthenticated: false
-        });
-      },
-      updateProfile: (userData) => {
-        const currentUser = get().user;
-        if (currentUser) {
-          const updatedUser = { ...currentUser, ...userData };
-          set({ user: updatedUser });
-        }
+        set({ user: null, isAuthenticated: false });
       }
     }),
     {
-      name: 'auth-storage',
+      name: 'auth-storage', // LocalStorage key
+      partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
     }
   )
 );

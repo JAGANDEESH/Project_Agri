@@ -21,7 +21,7 @@ function App() {
 
   const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean }> = ({
     children,
-    jaga,
+    
     adminOnly = false,
   }) => {
     if (!isAuthenticated) {
