@@ -31,6 +31,6 @@
     @apply hover:bg-gray-100 transition;
   }
   .input-name{
-    @apply mt-1 block w-full px-3 py-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500;
+    @apply w-full border border-gray-300 rounded-lg px-4 py-1 focus:outline-none focus:ring-1 focus:ring-green-500;
   }
 }

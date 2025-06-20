@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, User, LogOut, Leaf, Menu, X, ChevronDown } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useCartStore } from '../../store/cartStore';
+import { motion } from 'framer-motion';
 
 export const Header: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
@@ -35,13 +36,17 @@ export const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className="bg-white shadow-lg sticky top-4 left-0 right-0 mx-2 sm:mx-4 rounded-2xl z-50 transition-all duration-300 ease-in-out">
+    <header className="bg-white shadow-lg sticky top-0 z-50 w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-green-600 p-2 rounded-full shadow-md hover:scale-110 transition-transform">
+            <motion.div 
+              className="bg-green-600 p-2 rounded-full shadow-md"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
               <Leaf className="h-6 w-6 text-white" />
-            </div>
+            </motion.div>
             <span className="text-xl font-bold text-gray-900">FreshVeggies</span>
           </Link>
 
@@ -49,6 +54,7 @@ export const Header: React.FC = () => {
             <button
               onClick={toggleMenu}
               className="text-gray-700 hover:text-green-600 focus:outline-none"
+              aria-label="Toggle menu"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -68,7 +74,12 @@ export const Header: React.FC = () => {
                     Master <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
                   </div>
                   {open && (
-                    <div className="absolute left-0 mt-2 w-44 bg-white shadow-xl rounded-xl z-20">
+                    <motion.div 
+                      className="absolute left-0 mt-2 w-44 bg-white shadow-xl rounded-xl z-20"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <ul className="py-2 text-sm text-gray-700">
                         <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/vegetable-master")}>Vegetable Master</li>
                         <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/uom")}>UOM</li>
@@ -78,7 +89,7 @@ export const Header: React.FC = () => {
                         <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/agent-master")}>Agent Master</li>
                         <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/farmer-master")}>Farmer Master</li>
                       </ul>
-                    </div>
+                    </motion.div>
                   )}
                 </div>
               </>
@@ -94,9 +105,13 @@ export const Header: React.FC = () => {
                 <Link to="/cart" className="relative p-2 hover:text-green-600 transition-colors">
                   <ShoppingCart className="h-6 w-6" />
                   {cartItemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                    <motion.span 
+                      className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                    >
                       {cartItemCount}
-                    </span>
+                    </motion.span>
                   )}
                 </Link>
                 <div className="flex items-center space-x-2">
@@ -123,41 +138,47 @@ export const Header: React.FC = () => {
         </div>
 
         {isMenuOpen && (
-          <nav className="md:hidden mt-2 flex flex-col space-y-2 bg-white rounded-lg px-4 py-2 shadow-lg animate-fade-in">
-            <Link to="/products" className="hover:text-green-600">Products</Link>
+          <motion.nav 
+            className="md:hidden mt-2 flex flex-col space-y-2 bg-white rounded-lg px-4 py-2 shadow-lg"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link to="/products" className="hover:text-green-600 py-2">Products</Link>
             {isAuthenticated && user?.role === 'admin' && (
               <>
-                <Link to="/admin" className="hover:text-green-600">Admin</Link>
-                <Link to="/merchant" className="hover:text-green-600">Merchant Entry</Link>
-                <div className="flex flex-col gap-1">
+                <Link to="/admin" className="hover:text-green-600 py-2">Admin</Link>
+                <Link to="/merchant" className="hover:text-green-600 py-2">Merchant Entry</Link>
+                <div className="flex flex-col gap-1 py-2">
                   <div className="text-gray-700 font-semibold flex items-center gap-1">
                     Master <ChevronDown className="w-4 h-4" />
                   </div>
-                  <div className="ml-4 space-y-1">
-                    <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/vegetable-master")}>Vegetable Master</div>
-                    <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/uom")}>UOM</div>
-                    <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/packingUnit-master")}>Packing Unit</div>
-                    <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/category-master")}>Category</div>
-                    <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/staff-master")}>Staff Master</div>
-                    <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/agent-master")}>Agent Master</div>
-                    <div className="cursor-pointer hover:text-green-600" onClick={() => navigate("/farmer-master")}>Farmer Master</div>
+                  <div className="ml-4 space-y-1 mt-1">
+                    <div className="cursor-pointer hover:text-green-600 py-1" onClick={() => navigate("/vegetable-master")}>Vegetable Master</div>
+                    <div className="cursor-pointer hover:text-green-600 py-1" onClick={() => navigate("/uom")}>UOM</div>
+                    <div className="cursor-pointer hover:text-green-600 py-1" onClick={() => navigate("/packingUnit-master")}>Packing Unit</div>
+                    <div className="cursor-pointer hover:text-green-600 py-1" onClick={() => navigate("/category-master")}>Category</div>
+                    <div className="cursor-pointer hover:text-green-600 py-1" onClick={() => navigate("/staff-master")}>Staff Master</div>
+                    <div className="cursor-pointer hover:text-green-600 py-1" onClick={() => navigate("/agent-master")}>Agent Master</div>
+                    <div className="cursor-pointer hover:text-green-600 py-1" onClick={() => navigate("/farmer-master")}>Farmer Master</div>
                   </div>
                 </div>
               </>
             )}
             {isAuthenticated ? (
               <>
-                <Link to="/cart" className="hover:text-green-600">Cart ({cartItemCount})</Link>
-                <Link to="/profile" className="hover:text-green-600">Profile</Link>
-                <button onClick={handleLogout} className="text-left text-red-600 hover:text-red-800">Logout</button>
+                <Link to="/cart" className="hover:text-green-600 py-2">Cart ({cartItemCount})</Link>
+                <Link to="/profile" className="hover:text-green-600 py-2">Profile</Link>
+                <button onClick={handleLogout} className="text-left text-red-600 hover:text-red-800 py-2">Logout</button>
               </>
             ) : (
               <>
-                <Link to="/login" className="hover:text-green-600">Login</Link>
-                <Link to="/register" className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Sign Up</Link>
+                <Link to="/login" className="hover:text-green-600 py-2">Login</Link>
+                <Link to="/register" className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-center">Sign Up</Link>
               </>
             )}
-          </nav>
+          </motion.nav>
         )}
       </div>
     </header>
