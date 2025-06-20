@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn-submit {
+    @apply bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition;
+  }
+
+  .btn-back {
+    @apply bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition;
+  }
+
+  .btn-cencel {
+    @apply bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition;
+  }
+
+  .btn-outline {
+    @apply border border-gray-500 text-gray-700 px-4 py-2 rounded hover:bg-gray-100 transition;
+  }
+
+  .table-header {
+    @apply border p-2 text-left bg-gray-200 sticky top-0 z-10;
+  }
+
+  .table-cell {
+    @apply border p-2;
+  }
+
+  .table-row-hover {
+    @apply hover:bg-gray-100 transition;
+  }
+}

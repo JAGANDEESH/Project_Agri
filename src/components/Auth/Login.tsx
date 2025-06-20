@@ -47,13 +47,13 @@ export const Login: React.FC = () => {
         </div>
 
         {/* Demo Credentials */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials:</h3>
           <div className="text-sm text-blue-700 space-y-1">
             <p><strong>User:</strong> user@demo.com / password</p>
             <p><strong>Admin:</strong> admin@demo.com / admin</p>
           </div>
-        </div>
+        </div>/*}
 
         {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
