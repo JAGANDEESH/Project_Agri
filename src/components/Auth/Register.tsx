@@ -65,12 +65,12 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4 py-12 mt-[-70px]">
+      <div className="max-w-md w-full space-y-1">
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center">
-            <div className="bg-green-600 p-3 rounded-full">
+            <div className="bg-green-600 p-1 rounded-full">
               <Leaf className="h-8 w-8 text-white" />
             </div>
           </div>
@@ -80,7 +80,7 @@ export const Register: React.FC = () => {
 
         {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Full Name
@@ -92,7 +92,7 @@ export const Register: React.FC = () => {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="input input-name"
                 placeholder="Enter your full name"
               />
             </div>
@@ -108,8 +108,8 @@ export const Register: React.FC = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
                 placeholder="Enter your email"
+                className='input input-name'
               />
             </div>
 
@@ -123,7 +123,7 @@ export const Register: React.FC = () => {
                 type="tel"
                 value={formData.phone}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="input input-name"
                 placeholder="Enter your phone number"
               />
             </div>
@@ -137,7 +137,7 @@ export const Register: React.FC = () => {
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="input input-name"
               >
                 <option value="user">Customer</option>
                 <option value="admin">merchent</option>
@@ -156,7 +156,7 @@ export const Register: React.FC = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                  className="input input-name"
                   placeholder="Enter your password"
                 />
                 <button
@@ -184,7 +184,7 @@ export const Register: React.FC = () => {
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="input input-name"
                 placeholder="Confirm your password"
               />
             </div>

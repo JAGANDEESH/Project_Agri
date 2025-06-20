@@ -33,7 +33,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-1 mt-[-70px]">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">

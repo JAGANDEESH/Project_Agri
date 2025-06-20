@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { useAuthStore } from '../../../store/authStore';
 
 interface UOMType {
   id: number;
@@ -12,6 +13,7 @@ const UOM = () => {
   const [uoms, setUoms] = useState<UOMType[]>([]);
   const [editing, setEditing] = useState(false);
 
+  const { user } = useAuthStore();
   const fetchUOMs = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/uoms');
@@ -36,6 +38,7 @@ const UOM = () => {
       } else {
         await axios.post('http://localhost:5000/api/uoms', {
           name: formData.name,
+          userId: user?.id,
         });
       }
       fetchUOMs();
