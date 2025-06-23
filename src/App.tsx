@@ -10,6 +10,7 @@ import { Profile } from './pages/Profile';
 import { Orders } from './pages/Orders';
 import { Admin } from './pages/Admin';
 import { useAuthStore } from './store/authStore';
+import AddStaff from './components/Masters/StaffMaster/AddStaff';
 import MerchantPage from './components/MerchantPage';
 import Vegetable from './components/Masters/Vegetable/Vegetable';
 import UOM from './components/Masters/UOM/UOM';
@@ -115,6 +116,14 @@ function App() {
               element={
                 <ProtectedRoute adminOnly>
                   <Category />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/addStaff"
+              element={
+                <ProtectedRoute adminOnly>
+                  <AddStaff />
                 </ProtectedRoute>
               }
             />

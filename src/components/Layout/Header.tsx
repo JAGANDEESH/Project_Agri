@@ -112,6 +112,7 @@ export const Header: React.FC = () => {
                     href="/admin" 
                     className="hover:text-green-600 transition-colors px-3 py-2 rounded-lg hover:bg-green-50"
                   >
+<<<<<<< Updated upstream
                     Admin
                   </a>
                 </motion.div>
@@ -168,6 +169,23 @@ export const Header: React.FC = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
+=======
+                    Master <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+                  </div>
+                  {open && (
+                    <div className="absolute left-0 mt-2 w-44 bg-white shadow-xl rounded-xl z-20">
+                      <ul className="py-2 text-sm text-gray-700">
+                        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/vegetable-master")}>Vegetable Master</li>
+                        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/uom")}>UOM</li>
+                        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/packingUnit-master")}>Packing Unit</li>
+                        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/category-master")}>Category</li>
+                        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/addStaff")}>Staff Master</li>
+                        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/agent-master")}>Agent Master</li>
+                        <li className="px-4 py-2 hover:bg-green-100 cursor-pointer" onClick={() => navigate("/farmer-master")}>Farmer Master</li>
+                      </ul>
+                    </div>
+                  )}
+>>>>>>> Stashed changes
                 </div>
               </>
             )}
