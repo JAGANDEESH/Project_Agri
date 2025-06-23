@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Pencil, Trash2, Plus } from 'lucide-react'; // use `lucide-react` icons
+import { Pencil, Trash2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react'
 
-const AddStaff = () => {
-  const [formData, setFormData] = useState({
-    staffName: '',
-    fatherName: '',
+const AgentMaster = () => {
+   const [formData, setFormData] = useState({
+    agentName: '',
+    organizationName: '',
     aadharNo: '',
     panNo: '',
     address: '',
     phoneNo: ''
   });
 
-  const [staffList, setStaffList] = useState([]);
+  const [agentList, setAgentList] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
-  const fetchStaff = async () => {
+  const fetchAgent = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/staff/get-all-staff');
-      setStaffList(res.data);
+      const res = await axios.get('http://localhost:5000/api/agent/get-all-agent');
+      setAgentList(res.data);
     } catch (err) {
-      console.error('Error fetching staff:', err);
+      console.error('Error fetching agent:', err);
     }
   };
 
@@ -31,8 +31,8 @@ const AddStaff = () => {
 
   const resetForm = () => {
     setFormData({
-      staffName: '',
-      fatherName: '',
+      agentName: '',
+      organizationName: '',
       aadharNo: '',
       panNo: '',
       address: '',
@@ -46,8 +46,8 @@ const AddStaff = () => {
     e.preventDefault();
 
     const payload = {
-      name: formData.staffName,
-      fatherName: formData.fatherName,
+      name: formData.agentName,
+      organizationName: formData.organizationName,
       aadhar: formData.aadharNo || null,
       pan: formData.panNo || null,
       address: formData.address,
@@ -56,42 +56,42 @@ const AddStaff = () => {
 
     try {
       if (isEditing && editingId !== null) {
-        await axios.put(`http://localhost:5000/api/staff/update-staff/${editingId}`, payload);
-        alert('Staff updated successfully');
+        await axios.put(`http://localhost:5000/api/agent/update-agent/${editingId}`, payload);
+        alert('Agent updated successfully');
       } else {
-        await axios.post('http://localhost:5000/api/staff/create', payload);
-        alert('Staff added successfully');
+        await axios.post('http://localhost:5000/api/agent/create', payload);
+        alert('Agent added successfully');
       }
 
       resetForm();
-      fetchStaff();
+      fetchAgent();
     } catch (err) {
-      console.error('Error saving staff:', err);
-      alert('Failed to save staff');
+      console.error('Error saving agent:', err);
+      alert('Failed to save agent');
     }
   };
 
-   const handleEdit = (staff: any) => {
+   const handleEdit = (agent: any) => {
     setFormData({
-      staffName: staff.name,
-      fatherName: staff.father_name,
-      aadharNo: staff.aadhar || '',
-      panNo: staff.pan || '',
-      address: staff.address,
-      phoneNo: staff.phone
+      agentName: agent.name,
+      organizationName: agent.organization_name,
+      aadharNo: agent.aadhar || '',
+      panNo: agent.pan || '',
+      address: agent.address,
+      phoneNo: agent.phone
     });
     setIsEditing(true);
-    setEditingId(staff.id);
+    setEditingId(agent.id);
   };
 
     const handleDelete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this staff?')) {
+    if (window.confirm('Are you sure you want to delete this agent?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/staff/delete-staff/${id}`);
-        fetchStaff();
+        await axios.delete(`http://localhost:5000/api/agent/delete-agent/${id}`);
+        fetchAgent();
       } catch (err) {
-        console.error('Error deleting staff:', err);
-        alert('Failed to delete staff');
+        console.error('Error deleting agent:', err);
+        alert('Failed to delete agent');
       }
     }
   };
@@ -104,22 +104,22 @@ const AddStaff = () => {
   }, []);
 
   useEffect(() => {
-    fetchStaff();
+    fetchAgent();
   }, []);
 
   return (
     <div className="container mx-auto w-4/5 h-[570px] p-4 bg-white shadow-md rounded-2xl mt-5">
       <div className="flex gap-4 h-full">
         <div className="w-2/5 bg-green-100 p-4 rounded-2xl shadow">
-          <h1 className="text-2xl font-bold pl-7 text-green-900">{isEditing ? 'Edit Staff' : 'Add Staff'}</h1>
+          <h1 className="text-2xl font-bold pl-7 text-green-900">{isEditing ? 'Edit Agent' : 'Add Agent'}</h1>
           <form className="max-w-sm mx-auto mt-2" onSubmit={handleSubmit}>
             <div className="mb-2">
-              <label htmlFor="staffName" className="block text-sm font-medium text-gray-900">Staff Name</label>
-              <input type="text" id="staffName" value={formData.staffName} onChange={handleChange} required className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2" />
+              <label htmlFor="agentName" className="block text-sm font-medium text-gray-900">Agent Name</label>
+              <input type="text" id="agentName" value={formData.agentName} onChange={handleChange} required className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2" />
             </div>
             <div className="mb-2">
-              <label htmlFor="fatherName" className="block text-sm font-medium text-gray-900">Father/Guardian Name</label>
-              <input type="text" id="fatherName" value={formData.fatherName} onChange={handleChange} required className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2" />
+              <label htmlFor="organizationName" className="block text-sm font-medium text-gray-900">Organization Name</label>
+              <input type="text" id="organizationName" value={formData.organizationName} onChange={handleChange} required className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2" />
             </div>
             <div className="mb-2">
               <label htmlFor="aadharNo" className="block text-sm font-medium text-gray-900">Aadhar No</label>
@@ -148,7 +148,7 @@ const AddStaff = () => {
         </div>
         <div className="w-3/5 bg-green-100 p-4 rounded-2xl shadow">
           <div className="flex justify-between items-center mb-2">
-            <h1 className="text-2xl font-bold text-green-900">Staff List</h1>
+            <h1 className="text-2xl font-bold text-green-900">Agent List</h1>
           </div>
 <div className="overflow-auto rounded-lg border border-gray-200 shadow">
   <table className="min-w-full text-sm text-left bg-white">
@@ -156,34 +156,34 @@ const AddStaff = () => {
       <tr>
         <th className="px-2 py-2 border">Sl.No</th>
         <th className="px-4 py-2 border">Name</th>
-        <th className="px-4 py-2 border">Father Name</th>
+        <th className="px-4 py-2 border">Organization Name</th>
         <th className="px-4 py-2 border">Phone</th>
         <th className="px-4 py-2 border text-center">Actions</th>
       </tr>
     </thead>
     <tbody className="divide-y divide-gray-100">
-      {staffList.length === 0 ? (
+      {agentList.length === 0 ? (
         <tr>
           <td colSpan={5} className="text-center py-4 text-gray-500">No data found</td>
         </tr>
       ) : (
-        staffList.map((staff, index) => (
+        agentList.map((agent, index) => (
           <tr key={index} className="hover:bg-green-50 transition">
             <td className="px-2 py-2 border">{index + 1}</td>
-            <td className="px-4 py-2 border">{staff.name}</td>
-            <td className="px-4 py-2 border">{staff.father_name}</td>
-            <td className="px-4 py-2 border">{staff.phone}</td>
+            <td className="px-4 py-2 border">{agent.name}</td>
+            <td className="px-4 py-2 border">{agent.organization_name}</td>
+            <td className="px-4 py-2 border">{agent.phone}</td>
             <td className="px-4 py-2 border text-center">
               <div className="flex justify-center gap-3">
                 <button
-                  onClick={() => handleEdit(staff)}
+                  onClick={() => handleEdit(agent)}
                   className="text-blue-600 hover:text-blue-800"
                   title="Edit"
                 >
                   <Pencil size={18} />
                 </button>
                 <button
-                  onClick={() => handleDelete(staff.id)}
+                  onClick={() => handleDelete(agent.id)}
                   className="text-red-600 hover:text-red-800"
                   title="Delete"
                 >
@@ -201,6 +201,6 @@ const AddStaff = () => {
       </div>
     </div>
   );
-};
+}
 
-export default AddStaff;
+export default AgentMaster

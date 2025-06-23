@@ -150,7 +150,7 @@ export const Header: React.FC = () => {
                             { path: "/uom", label: "UOM" },
                             { path: "/packingUnit-master", label: "Packing Unit" },
                             { path: "/category-master", label: "Category" },
-                            { path: "/staff-master", label: "Staff Master" },
+                            { path: "/addStaff", label: "Staff Master" },
                             { path: "/agent-master", label: "Agent Master" },
                             { path: "/farmer-master", label: "Farmer Master" }
                           ].map((item) => (

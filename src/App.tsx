@@ -16,6 +16,7 @@ import Vegetable from './components/Masters/Vegetable/Vegetable';
 import UOM from './components/Masters/UOM/UOM';
 import PackingUnit from './components/Masters/PackingUnit/PackingUnit';
 import Category from './components/Masters/Category/Category';
+import AgentMaster from './components/Masters/AgentMaster/agentMaster';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
@@ -124,6 +125,14 @@ function App() {
               element={
                 <ProtectedRoute adminOnly>
                   <AddStaff />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/agent-master"
+              element={
+                <ProtectedRoute adminOnly>
+                  <AgentMaster />
                 </ProtectedRoute>
               }
             />
