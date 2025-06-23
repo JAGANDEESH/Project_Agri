@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Edit, Trash } from 'lucide-react';
+import { useAuthStore } from '../../../store/authStore';
 
 const PackingUnit = () => {
   const [formData, setFormData] = useState({ id: null, name: '' });
-  const [units, setUnits] = useState<any[]>([]); // Ensure it's always an array
+  const [units, setUnits] = useState<any[]>([]);
   const [editing, setEditing] = useState(false);
+  const { user } = useAuthStore(); // <-- Move hook call to top level
+  const userId = user?.id; // <-- Extract userId if needed
 
+  // Fetch all packing units
   const fetchUnits = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/packing-units');
@@ -22,31 +26,39 @@ const PackingUnit = () => {
     fetchUnits();
   }, []);
 
+  // Submit handler for create/update
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!formData.name.trim()) {
-    alert("Name is required.");
-    return;
-  }
-
-  try {
-    if (formData.id) {
-      await axios.put(`http://localhost:5000/api/packing-units/${formData.id}`, {
-        name: formData.name,
-      });
-    } else {
-      await axios.post('http://localhost:5000/api/packing-units', {
-        name: formData.name,
-      });
+    if (!formData.name.trim()) {
+      alert("Name is required.");
+      return;
     }
-    clearForm();
-    fetchUnits();
-  } catch (err) {
-    console.error('Error saving unit:', err.response?.data || err.message);
-  }
-};
 
+    try {
+      if (formData.id) {
+        // Update existing
+        await axios.put(`http://localhost:5000/api/packing-units/${formData.id}`, {
+          name: formData.name
+        });
+      } else {
+        if (!userId) {
+          alert("User ID is missing.");
+          return;
+        }
+        // Create new
+        await axios.post('http://localhost:5000/api/packing-units', {
+          name: formData.name,
+          userId: Number(userId)
+        });
+      }
+
+      clearForm();
+      fetchUnits();
+    } catch (err) {
+      console.error('Error saving unit:', err.response?.data || err.message);
+    }
+  };
 
   const clearForm = () => {
     setFormData({ id: null, name: '' });

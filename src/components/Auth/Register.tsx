@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Leaf } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
@@ -61,7 +61,12 @@ export const Register: React.FC = () => {
 
     setLoading(false);
   };
-
+useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-200 px-4 py-12 mt-[-10px]  ">
       <motion.div

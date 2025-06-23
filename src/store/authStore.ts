@@ -1,7 +1,7 @@
 // src/store/authStore.ts
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { registerUser, loginUser } from '../api/authApi';
+import { registerUser, loginUser, updateUserProfile } from '../api/authApi';
 
 interface AuthState {
   user: any;
@@ -15,14 +15,19 @@ interface AuthState {
   }) => Promise<boolean>;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
+  updateProfile: (updatedData: {
+    name?: string;
+    email?: string;
+    phone?: string;
+    address?: string;
+  }) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       isAuthenticated: false,
-
       register: async (data) => {
         try {
           await registerUser(data);
@@ -44,14 +49,29 @@ export const useAuthStore = create<AuthState>()(
           return false;
         }
       },
-
       logout: () => {
         set({ user: null, isAuthenticated: false });
+      },
+      updateProfile: async (updatedData) => {
+        try {
+          const currentUser = get().user;
+          if (!currentUser?.id) throw new Error('User ID not found');
+          // API call
+          await updateUserProfile(currentUser.id, updatedData);
+          // Update local user data
+          const updatedUser = { ...currentUser, ...updatedData };
+          set({ user: updatedUser });
+        } catch (err) {
+          console.error('Update profile failed:', err);
+        }
       }
     }),
     {
-      name: 'auth-storage', // LocalStorage key
-      partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
+      name: 'auth-storage',
+      partialize: (state) => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated
+      }),
     }
   )
 );
