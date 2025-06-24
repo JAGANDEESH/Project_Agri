@@ -14,6 +14,10 @@ const PackingUnit = () => {
 
   useEffect(() => {
     fetchUnits();
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, []);
 
   const fetchUnits = async () => {
@@ -57,7 +61,7 @@ const PackingUnit = () => {
         res = await postPackingUnit(body)
       }
       // console.log('red', res)
-      alert(res?.data.message)
+      alert(res?.data.message, 'success');
       await fetchUnits();
       clearForm();
     } catch (err) {
@@ -86,7 +90,7 @@ const PackingUnit = () => {
     try {
 
       window.customConfirm(
-        "Delete this organization?",
+        "Delete this packing unit?",
         async (isConfirmed: boolean) => {
           if (!isConfirmed) return;
           try {
@@ -124,7 +128,7 @@ const PackingUnit = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full border rounded px-3 py-1"
+                className="w-full input input-name"
                 required
               />
             </div>
@@ -164,8 +168,7 @@ const PackingUnit = () => {
                 <tr className="bg-gray-200">
                   <th className="border p-2 text-left">ID</th>
                   <th className="border p-2 text-left">Name</th>
-                  <th className="border p-2 text-left">Edit</th>
-                  <th className="border p-2 text-left">Delete</th>
+                  <th className="border p-2 text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -180,15 +183,24 @@ const PackingUnit = () => {
                     <tr key={unit.id} className="hover:bg-gray-100 transition">
                       <td className="border p-2">{unit.id}</td>
                       <td className="border p-2">{unit.name}</td>
-                      <td className="border p-2">
-                        <button onClick={() => update(unit)}>
-                          <Edit size={20} color="blue" />
-                        </button>
-                      </td>
-                      <td className="border p-2">
-                        <button onClick={() => remove(unit.id)}>
-                          <Trash size={20} color="red" />
-                        </button>
+
+                      <td className=" p-2 border text-center">
+                        <div className="flex justify-center gap-5">
+                          <button
+                            onClick={() => update(unit)}
+                            className="text-blue-600 hover:text-blue-800"
+                            title="Edit"
+                          >
+                            <Edit size={18} />
+                          </button>
+                          <button
+                            onClick={() => remove(unit.id)}
+                            className="text-red-600 hover:text-red-800"
+                            title="Delete"
+                          >
+                            <Trash size={18} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))

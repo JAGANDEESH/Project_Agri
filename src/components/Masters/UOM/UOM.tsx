@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '../../../store/authStore';
 import { deleteUOM, fetchUOM, postUOM, putUOM } from '../../../api/uomApi';
+import { Edit, Trash } from 'lucide-react';
 
 interface UOMType {
   id: number;
@@ -26,6 +27,10 @@ const UOM = () => {
 
   useEffect(() => {
     fetchUOMs();
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,7 +50,7 @@ const UOM = () => {
       } else {
         res = await postUOM(body)
       }
-      alert(res?.data.message)
+      alert(res?.data.message, 'success');
       fetchUOMs();
       clearForm();
     } catch (error) {
@@ -69,23 +74,29 @@ const UOM = () => {
   };
 
   const handleDelete = async (id: number) => {
-    try {
-      const res = await deleteUOM(id)
-      alert(res?.data.message)
-      fetchUOMs();
-    } catch (error) {
-      console.error('Error deleting UOM:', error);
-    }
+
+    window.customConfirm(
+      "Delete this UOM?",
+      async (isConfirmed: boolean) => {
+        if (!isConfirmed) return;
+        try {
+          const res = await deleteUOM(id)
+          alert(res?.data.message, 'success');
+          fetchUOMs()
+        } catch (error) {
+          alert("Failed to delete packing unit", 'error');
+        }
+      })
   };
 
   return (
-    <div className="p-4 md:p-8 bg-gray-100 min-h-screen items-center flex flex-col gap-6">
+    <div className="p-4 md:p-8 bg-gray-100 min-h-screen justify-center flex flex-col  lg:flex-row gap-6">
       {/* Form Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-[50%] bg-white p-6 rounded-2xl shadow-lg"
+        className=" w-96 h-96 bg-white p-6 rounded-2xl shadow-lg"
       >
         <h2 className="text-2xl font-bold mb-6 text-green-700">Unit Of Measurement</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -97,7 +108,7 @@ const UOM = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full border rounded px-3 py-1"
+                className="w-full input input-name"
                 required
               />
             </div>
@@ -129,10 +140,10 @@ const UOM = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-[50%] bg-white p-6 rounded-2xl shadow-lg"
+        className="w-96  h-96 bg-white p-6 rounded-2xl shadow-lg"
       >
         <h2 className="text-2xl font-bold mb-6 text-green-700">Unit Of Measurement List</h2>
-        <div className="space-y-4 max-h-72 overflow-y-auto">
+        <div className="space-y-4 max-h-60 overflow-y-auto">
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-200">
@@ -153,20 +164,25 @@ const UOM = () => {
                   <tr key={uom.id} className="hover:bg-gray-100 transition">
                     <td className="border p-2">{uom.id}</td>
                     <td className="border p-2">{uom.name}</td>
-                    <td className="border p-2 flex gap-2">
-                      <button
-                        onClick={() => handleEdit(uom)}
-                        className="text-blue-600 hover:underline"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(uom.id)}
-                        className="text-red-600 hover:underline"
-                      >
-                        Delete
-                      </button>
+                    <td className=" p-2 border text-center">
+                      <div className="flex justify-center gap-5">
+                        <button
+                          onClick={() => handleEdit(uom)}
+                          className="text-blue-600 hover:text-blue-800"
+                          title="Edit"
+                        >
+                          <Edit size={18} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(uom.id)}
+                          className="text-red-600 hover:text-red-800"
+                          title="Delete"
+                        >
+                          <Trash size={18} />
+                        </button>
+                      </div>
                     </td>
+
                   </tr>
                 ))
               )}

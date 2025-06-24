@@ -22,7 +22,7 @@ export const postUOM = async (data: any) => {
         });
         return res
     } catch (error) {
-
+console.log(error)
     }
 
 }

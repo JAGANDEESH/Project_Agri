@@ -18,6 +18,10 @@ const Category = () => {
 
     useEffect(() => {
         getCategory()
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "auto";
+        };
     }, [])
 
     const getCategory = async () => {
@@ -57,7 +61,7 @@ const Category = () => {
                 res = await postCategory(body)
             }
             // console.log('red', res)
-            alert(res?.data.message)
+            alert(res?.data.message, 'success');
             await getCategory();
             clearForm();
         } catch (err) {
@@ -83,23 +87,32 @@ const Category = () => {
     }
 
     const remove = async (id: number) => {
-        try {
-            await deleteCategory(id)
-            getCategory();
-        } catch (err) {
-            console.error('Error deleting unit:', err);
-        }
+
+        window.customConfirm(
+            "Delete this vegetable?",
+            async (isConfirmed: boolean) => {
+                if (!isConfirmed) return;
+                try {
+                    const res = await deleteCategory(id)
+                    alert(res?.data.message, 'success');
+                    getCategory()
+                } catch (error) {
+                    alert("Failed to delete packing unit", 'error');
+                }
+            })
+
+
     };
 
     return (
-        <div className="p-4 md:p-8 bg-gray-100 min-h-screen items-center flex flex-col  gap-6">
+        <div className="p-4 md:p-8 bg-gray-100 min-h-screen justify-center flex flex-col lg:flex-row   gap-6">
 
             {/* Form Section */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="w-[50%] bg-white p-6 rounded-2xl shadow-lg"
+                className="w-96 h-96 bg-white p-6 rounded-2xl shadow-lg"
             >
                 <h2 className="text-2xl  font-bold mb-6 text-green-700">Category</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -112,29 +125,40 @@ const Category = () => {
                                 name='name'
                                 value={formData.name}
                                 onChange={handleChange}
-                                className="w-full border rounded px-3 py-1"
+                                className="w-full input input-name"
                                 required
                             />
                         </div>
 
                     </div>
 
+                    <div className="flex justify-end gap-2" >
 
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.97 }}
-                        type="submit"
-                        className="bg-green-600 text-white  px-6 py-2 rounded hover:bg-green-700 transition"
-                    >
-                        Submit & Save
-                    </motion.button>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.97 }}
+                            type="submit"
+                            className="bg-green-600 text-white  px-6 py-2 rounded hover:bg-green-700 transition"
+                        >
+                            {formData.id ? 'Update' : 'Submit & Save'}
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.97 }}
+                            type='button'
+                            onClick={clearForm}
+                            className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition"
+                        >
+                            {formData.id ? 'Cancel' : 'Clear'}
+                        </motion.button>
+                    </div>
                 </form>
             </motion.div>
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="w-[50%] bg-white p-6 rounded-2xl shadow-lg"
+                className="w-96  h-96 bg-white p-6 rounded-2xl shadow-lg"
             >
                 <h2 className="text-2xl  font-bold mb-6 text-green-700">Category List</h2>
                 <div className="space-y-4">
@@ -143,15 +167,15 @@ const Category = () => {
                             <tr className="bg-gray-200">
                                 <th className="border p-2 text-left">ID</th>
                                 <th className="border p-2 text-left">Name</th>
-                                <th className="border p-2 text-left">Edit</th>
-                                <th className="border p-2 text-left">Delete</th>
+                                <th className="border p-2 text-left">Action</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             {categoryList.length === 0 ? (
                                 <tr>
                                     <td colSpan={2} className="text-center p-4 text-gray-500">
-                                        No unit of mesurment added yet
+                                        No category added yet
                                     </td>
                                 </tr>
                             ) : (
@@ -159,15 +183,24 @@ const Category = () => {
                                     <tr key={category.id} className="hover:bg-gray-100 transition">
                                         <td className="border p-2">{category.id}</td>
                                         <td className="border p-2">{category.name}</td>
-                                        <td className="border p-2">
-                                            <button onClick={() => update(category)}>
-                                                <Edit size={20} color="blue" />
-                                            </button>
-                                        </td>
-                                        <td className="border p-2">
-                                            <button onClick={() => remove(category.id)}>
-                                                <Trash size={20} color="red" />
-                                            </button>
+
+                                        <td className=" p-2 border text-center">
+                                            <div className="flex justify-center gap-5">
+                                                <button
+                                                    onClick={() => update(category)}
+                                                    className="text-blue-600 hover:text-blue-800"
+                                                    title="Edit"
+                                                >
+                                                    <Edit size={18} />
+                                                </button>
+                                                <button
+                                                    onClick={() => remove(category.id)}
+                                                    className="text-red-600 hover:text-red-800"
+                                                    title="Delete"
+                                                >
+                                                    <Trash size={18} />
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
