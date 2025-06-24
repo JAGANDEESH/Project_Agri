@@ -1,10 +1,11 @@
 import axios from "axios"
+import { BASE_URL } from "./baseApi";
 
 
 export const fetchUOM = async () => {
     try {
 
-        const res = await axios.get('http://localhost:5000/api/uoms');
+        const res = await axios.get(`${BASE_URL}/uoms`);
         return res.data
 
     } catch (error) {
@@ -15,7 +16,7 @@ export const fetchUOM = async () => {
 export const postUOM = async (data: any) => {
 
     try {
-        const res = await axios.post('http://localhost:5000/api/uoms', {
+        const res = await axios.post(`${BASE_URL}/uoms`, {
             name: data.name,
             userId: data.userId,
         });
@@ -30,7 +31,7 @@ export const putUOM = async (data: any) => {
 
     try {
 
-        const res = await axios.put(`http://localhost:5000/api/uoms/${data.id}`, {
+        const res = await axios.put(`${BASE_URL}/uoms/${data.id}`, {
             name: data.name,
             userId: data.userId
 
@@ -47,7 +48,7 @@ export const putUOM = async (data: any) => {
 export const deleteUOM = async (id: number) => {
     try {
 
-        const res = await axios.delete(`http://localhost:5000/api/uoms/${id}`);
+        const res = await axios.delete(`${BASE_URL}/uoms/${id}`);
         return res
 
     } catch (error) {

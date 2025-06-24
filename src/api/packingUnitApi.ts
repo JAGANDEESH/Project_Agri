@@ -1,9 +1,10 @@
 import axios from "axios";
+import { BASE_URL } from "./baseApi";
 
 export const fetchPackingUniut = async () => {
 
     try {
-        const res = await axios.get('http://localhost:5000/api/packing-units');
+        const res = await axios.get(`${BASE_URL}/packing-units`);
         // console.log(res)
         return res.data;
     } catch (err) {
@@ -17,7 +18,7 @@ export const postPackingUnit = async (data: any) => {
 
     try {
 
-        const res = axios.post('http://localhost:5000/api/packing-units', {
+        const res = axios.post(`${BASE_URL}/packing-units`, {
             name: data.name,
             userId: data.userId
         });
@@ -34,7 +35,7 @@ export const updatePackingUnit = async (data: any) => {
 
     try {
 
-        const res = await axios.put(`http://localhost:5000/api/packing-units/${data.id}`, {
+        const res = await axios.put(`${BASE_URL}/packing-units/${data.id}`, {
             name: data.name,
             userId: data.userId
         });
@@ -50,8 +51,8 @@ export const updatePackingUnit = async (data: any) => {
 
 export const deletePackingUnit = async (id: number) => {
     try {
-      const res =  await axios.delete(`http://localhost:5000/api/packing-units/${id}`);
-      return res
+        const res = await axios.delete(`${BASE_URL}/packing-units/${id}`);
+        return res
     } catch (error) {
 
     }
