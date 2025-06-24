@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Header } from './components/Layout/Header';
 import { Home } from './pages/Home';
@@ -17,13 +17,15 @@ import UOM from './components/Masters/UOM/UOM';
 import PackingUnit from './components/Masters/PackingUnit/PackingUnit';
 import Category from './components/Masters/Category/Category';
 import AgentMaster from './components/Masters/AgentMaster/agentMaster';
+import CustomConfirmModal from './messageBoxs/CustomConfirmModel';
+import AlertModal from './messageBoxs/AlertModal';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
 
   const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean }> = ({
     children,
-    
+
     adminOnly = false,
   }) => {
     if (!isAuthenticated) {
@@ -37,9 +39,50 @@ function App() {
     return <>{children}</>;
   };
 
+
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertType, setAlertType] = useState("info");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState('');
+  const [action, setAction] = useState(null);
+
+  window.alert = (message: React.SetStateAction<string>, type: React.SetStateAction<string>) => {
+    setAlertMessage(message);
+    setAlertType(type); // "error", "success", "info"
+    setAlertOpen(true);
+  };
+
+
+
+  window.customConfirm = (message, callback) => {
+    setConfirmMessage(message);
+    setAction(() => callback);
+    setShowConfirm(true);
+  };
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
+        <CustomConfirmModal
+          message={confirmMessage}
+          onConfirm={(confirmed) => {
+            setShowConfirm(false);
+            action && action(confirmed);
+          }}
+          onCancel={() => {
+            setShowConfirm(false);
+            action && action(false);
+          }}
+          showModel={showConfirm}
+        />
+
+        <AlertModal
+          message={alertMessage}
+          isOpen={alertOpen}
+          onClose={() => setAlertOpen(false)}
+          msgType={alertType}
+        />
         <Header />
         <main>
           <Routes>

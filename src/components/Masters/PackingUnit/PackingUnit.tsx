@@ -1,30 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Edit, Trash } from 'lucide-react';
+import { deletePackingUnit, fetchPackingUniut, postPackingUnit, updatePackingUnit } from '../../../api/packingUnitApi';
 import { useAuthStore } from '../../../store/authStore';
 
 const PackingUnit = () => {
   const [formData, setFormData] = useState({ id: null, name: '' });
   const [units, setUnits] = useState<any[]>([]);
   const [editing, setEditing] = useState(false);
-  const { user } = useAuthStore(); // <-- Move hook call to top level
-  const userId = user?.id; // <-- Extract userId if needed
 
-  // Fetch all packing units
+  const { user } = useAuthStore(); // get user from store
+
+
+  useEffect(() => {
+    fetchUnits();
+  }, []);
+
   const fetchUnits = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/packing-units');
-      setUnits(res.data || []);
+      const res = await fetchPackingUniut()
+      // console.log(res);
+
+      setUnits(res || []);
     } catch (err) {
       console.error('Error fetching units:', err);
       setUnits([]);
     }
   };
 
-  useEffect(() => {
-    fetchUnits();
-  }, []);
+
 
   // Submit handler for create/update
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,30 +39,32 @@ const PackingUnit = () => {
       return;
     }
 
-    try {
-      if (formData.id) {
-        // Update existing
-        await axios.put(`http://localhost:5000/api/packing-units/${formData.id}`, {
-          name: formData.name
-        });
-      } else {
-        if (!userId) {
-          alert("User ID is missing.");
-          return;
-        }
-        // Create new
-        await axios.post('http://localhost:5000/api/packing-units', {
-          name: formData.name,
-          userId: Number(userId)
-        });
-      }
+    const body = {
+      id: formData.id,
+      name: formData.name,
+      userId: user.id
+    }
 
+    // console.log(body)
+
+    try {
+      let res;
+      if (formData.id) {
+
+        res = await updatePackingUnit(body)
+
+      } else {
+        res = await postPackingUnit(body)
+      }
+      // console.log('red', res)
+      alert(res?.data.message)
+      await fetchUnits();
       clearForm();
-      fetchUnits();
     } catch (err) {
-      console.error('Error saving unit:', err.response?.data || err.message);
+      // console.error('Error saving unit:', err.response?.data || err.message);
     }
   };
+
 
   const clearForm = () => {
     setFormData({ id: null, name: '' });
@@ -73,11 +79,26 @@ const PackingUnit = () => {
   const update = (data: any) => {
     setFormData({ id: data.id, name: data.name });
     setEditing(true);
+    // console.log(formData)
   };
 
   const remove = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:5000/api/packing-units/${id}`);
+
+      window.customConfirm(
+        "Delete this organization?",
+        async (isConfirmed: boolean) => {
+          if (!isConfirmed) return;
+          try {
+            const res = await deletePackingUnit(id)
+            alert(res?.data.message, 'success');
+
+          } catch (error) {
+            alert("Failed to delete packing unit", 'error');
+          }
+        })
+
+
       fetchUnits();
     } catch (err) {
       console.error('Error deleting unit:', err);

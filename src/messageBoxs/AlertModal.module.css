@@ -1,0 +1,94 @@
+.alertOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.alertModal {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 10px 30px 30px 10px rgba(99, 97, 97, 0.989); 
+  max-width: 400px;
+  width: 90%;
+  padding: 10px;
+  animation: scaleUp 0.3s ease-in-out;
+  margin-bottom: 200px;
+  border-top: 24px solid var(--modal-top-color, orange);
+  border-bottom: 15px solid white;
+  position: relative;
+}
+
+.alertContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 130px;
+}
+
+.alertIcon {
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+}
+
+.alertText {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  /* position: relative; */
+}
+
+.alertText h4 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #161616;
+  text-align: center;
+  height: 20%;
+  margin-top: 25px;
+  font-weight: bold;
+}
+
+.alertText p {
+  margin-top: 12px;
+  color: #666;
+  font-size: 15px;
+  height: 80%;
+  text-align: center;
+}
+
+.alertButtons {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 12px;
+  height: 20%;
+  margin-top: 5px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}

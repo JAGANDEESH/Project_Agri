@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
 import { useAuthStore } from '../../../store/authStore';
+import { deleteUOM, fetchUOM, postUOM, putUOM } from '../../../api/uomApi';
 
 interface UOMType {
   id: number;
@@ -16,8 +16,8 @@ const UOM = () => {
   const { user } = useAuthStore();
   const fetchUOMs = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/uoms');
-      setUoms(res.data || []);
+      const res = await fetchUOM()
+      setUoms(res || []);
     } catch (error) {
       console.error('Error fetching UOMs:', error);
       setUoms([]);
@@ -30,17 +30,22 @@ const UOM = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const body = {
+      id: formData.id,
+      name: formData.name,
+      userId: user.id
+    }
+    // console.log(body)
+
     try {
+      let res
       if (editing && formData.id !== null) {
-        await axios.put(`http://localhost:5000/api/uoms/${formData.id}`, {
-          name: formData.name,
-        });
+        res = await putUOM(body)
       } else {
-        await axios.post('http://localhost:5000/api/uoms', {
-          name: formData.name,
-          userId: user?.id,
-        });
+        res = await postUOM(body)
       }
+      alert(res?.data.message)
       fetchUOMs();
       clearForm();
     } catch (error) {
@@ -65,7 +70,8 @@ const UOM = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:5000/api/uoms/${id}`);
+      const res = await deleteUOM(id)
+      alert(res?.data.message)
       fetchUOMs();
     } catch (error) {
       console.error('Error deleting UOM:', error);

@@ -1,5 +1,7 @@
-import  { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
+import { fetchPackingUniut } from '../../../api/packingUnitApi';
+import { fetchUOM } from '../../../api/uomApi';
 
 
 const Vegetable = () => {
@@ -7,8 +9,40 @@ const Vegetable = () => {
     const [formData, setFormData] = useState({
         vegName: '',
         packingUnit: 0,
-        vom: 0
+        uom: 0
     })
+
+    const [uomList, setuomList] = useState([])
+    const [packingUnitList, setPackingUnitList] = useState([])
+
+    useEffect(() => {
+        fetchUnits()
+        fetchUOMs()
+    }, [])
+
+
+    const fetchUOMs = async () => {
+        try {
+            const res = await fetchUOM()
+            setuomList(res || []);
+        } catch (error) {
+            console.error('Error fetching UOMs:', error);
+            setuomList([]);
+        }
+    };
+    const fetchUnits = async () => {
+        try {
+            const res = await fetchPackingUniut()
+            // console.log(res);
+
+            setPackingUnitList(res || []);
+            console.log(res)
+            // setFormData((prev) => ({...prev , packingUnit:res[0].id}) )
+        } catch (err) {
+            console.error('Error fetching units:', err);
+            setPackingUnitList([]);
+        }
+    };
 
     const handleChange = (e: { target: { name: any; value: any } }) => {
         const { name, value } = e.target
@@ -24,7 +58,7 @@ const Vegetable = () => {
         setFormData({
             vegName: '',
             packingUnit: 0,
-            vom: 0
+            uom: 0
         })
     }
 
@@ -59,21 +93,29 @@ const Vegetable = () => {
                                 value={formData.packingUnit}
                                 onChange={handleChange}
                                 className="w-full border rounded px-3 py-1" >
-                                {/* <option value="select"></option> */}
-                                <option value="kg">KG</option>
-                                <option value="tons">TONS</option>
+                                <option value={0}>select</option>
+                                {packingUnitList.map((pu) => (
+
+                                    <option key={pu.id} value={pu.id}> {pu.name} </option>
+                                )
+
+                                )}
+
                             </select>
 
                         </div>
                         <div >
-                            <label className="block mb-1 font-medium">VOM</label>
-                            <select id="" name='vom'
-                                value={formData.vom}
+                            <label className="block mb-1 font-medium">UOM</label>
+                            <select id="" name='uom'
+                                value={formData.uom}
                                 onChange={handleChange}
                                 className="w-full border rounded px-3 py-1" >
-                                {/* <option value="select"></option> */}
-                                <option value="kg">KG</option>
-                                <option value="tons">TONS</option>
+                                <option value={0}>select</option>
+                                {uomList.map((uom) => (
+
+                                    <option key={uom.id} value={uom.id} > {uom.name} </option>
+                                ))}
+
                             </select>
                         </div>
                     </div>
