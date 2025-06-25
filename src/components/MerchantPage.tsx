@@ -133,7 +133,7 @@ const MerchantPage: React.FC = () => {
                   </div>
                 </div>
 <div className="max-h-[400px] overflow-y-auto">
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form  className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
@@ -161,6 +161,7 @@ const MerchantPage: React.FC = () => {
                         required
                         className="input input-name w-full"
                         placeholder="Enter trip number"
+                        min={0}
                       />
                     </div>
                   </div>
@@ -274,6 +275,7 @@ const MerchantPage: React.FC = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.97 }}
                       type="submit"
+                      onClick={handleSubmit}
                       className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg text-sm"
                     >
                       Submit & Save
