@@ -21,7 +21,7 @@ export const postVegetable = async (data: any) => {
     try {
 
         const res = axios.post(`${BASE_URL}/vegetables`, {
-           
+         
             vegName: data.vegName,
             uom: data.uom,
             packingUnit: data.packingUnit,
@@ -29,7 +29,7 @@ export const postVegetable = async (data: any) => {
 
         });
 
-        // console.log(res)
+        console.log(res)
         return res
     } catch (error) {
         console.log(error)
