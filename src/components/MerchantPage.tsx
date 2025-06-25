@@ -102,11 +102,11 @@ const MerchantPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block font-medium mb-1">Date</label>
-                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full border rounded px-3 py-1" required />
+                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="input input-name" required />
               </div>
               <div>
                 <label className="block font-medium mb-1">Trip No</label>
-                <input type="number" value={tripNo} onChange={(e) => setTripNo(e.target.value)} className="w-full border rounded px-3 py-1" required />
+                <input type="number" value={tripNo} onChange={(e) => setTripNo(e.target.value)} className="input input-name" required />
               </div>
             </div>
 
@@ -114,11 +114,11 @@ const MerchantPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block font-medium mb-1">Merchant Name</label>
-                <input type="text" value={merchantName} onChange={(e) => setMerchantName(e.target.value)} className="w-full border rounded px-3 py-1" required />
+                <input type="text" value={merchantName} onChange={(e) => setMerchantName(e.target.value)} className="input input-name" required />
               </div>
               <div>
                 <label className="block font-medium mb-1">Vegetable Name</label>
-                <input type="text" value={vegetable} onChange={(e) => setVegetable(e.target.value)} className="w-full border rounded px-3 py-1" required />
+                <input type="text" value={vegetable} onChange={(e) => setVegetable(e.target.value)} className="input input-name" required />
               </div>
             </div>
 
@@ -126,11 +126,11 @@ const MerchantPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block font-medium mb-1">Price (₹)</label>
-                <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="w-full border rounded px-3 py-1" required />
+                <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="input input-name" required />
               </div>
               <div>
                 <label className="block font-medium mb-1">No. of Bags</label>
-                <input type="number" value={noOfBags} onChange={(e) => setNoOfBags(Number(e.target.value))} className="w-full border rounded px-3 py-1" required min={1} />
+                <input type="number" value={noOfBags} onChange={(e) => setNoOfBags(Number(e.target.value))} className="input input-name" required min={1} />
               </div>
             </div>
 
@@ -139,7 +139,7 @@ const MerchantPage: React.FC = () => {
               {bags.map((bag, index) => (
                 <div key={bag.bagNumber}>
                   <label className="block font-medium mb-1">Weight for Bag {bag.bagNumber} (kg)</label>
-                  <input type="number" value={bag.weight} onChange={(e) => handleWeightChange(index, Number(e.target.value))} className="w-full border rounded px-3 py-1" required min={0} />
+                  <input type="number" value={bag.weight} onChange={(e) => handleWeightChange(index, Number(e.target.value))} className="input input-name" required min={0} />
                 </div>
               ))}
             </div>
@@ -147,7 +147,7 @@ const MerchantPage: React.FC = () => {
             {/* Total Weight */}
             <div>
               <label className="block font-medium mb-1">Total Weight (kg)</label>
-              <input type="number" value={weight} readOnly className="w-full bg-gray-100 border rounded px-3 py-1 cursor-not-allowed" />
+              <input type="number" value={weight} readOnly className="input input-name" />
             </div>
 
             {/* Buttons */}
