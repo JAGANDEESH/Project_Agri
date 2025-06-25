@@ -17,12 +17,9 @@ import UOM from './components/Masters/UOM/UOM';
 import PackingUnit from './components/Masters/PackingUnit/PackingUnit';
 import Category from './components/Masters/Category/Category';
 import AgentMaster from './components/Masters/AgentMaster/agentMaster';
-<<<<<<< Updated upstream
 import CustomConfirmModal from './messageBoxs/CustomConfirmModel';
 import AlertModal from './messageBoxs/AlertModal';
-=======
 import FarmerMaster from './components/Masters/FarmerMaster/FarmerMaster';
->>>>>>> Stashed changes
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
